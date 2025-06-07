@@ -1,5 +1,3 @@
-;; Complete corrected section for your original contract:
-
 ;; Shuffle deck using combined seed (deterministic pseudo-random shuffle)
 (define-private (shuffle-deck (seed (buff 32)))
     ;; Create base deck
@@ -24,7 +22,7 @@
     )
 )
 
-;; Generate provably fair shuffled deck
+;; Fixed generate-shuffled-deck function
 (define-private (generate-shuffled-deck (game-id uint))
     (let (
         (seed-data (map-get? random-seeds { game-id: game-id }))
@@ -32,7 +30,7 @@
         (match seed-data
             some-seed-data 
                 (let ((combined-seed (sha256 (concat (get server-seed some-seed-data) (get client-seed some-seed-data)))))
-                    ;; Use shuffle with deterministic randomness
+                    ;; Use Fisher-Yates shuffle with deterministic randomness
                     (shuffle-deck combined-seed)
                 )
             ;; Return default deck if seed data not found
